@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './Home.css';
+import Details from '../details/Details';
 import { withStyles } from '@material-ui/core/styles';
 import Header from '../../common/header/Header';
 import movieData from '../../common/movieData';
@@ -68,6 +70,14 @@ class Home extends Component {
     artistsSelecthandler = (e)=>{
         this.setState({artists:e.target.value})
     }
+    movieClickHandler=(movieId)=>{
+        ReactDOM.render(
+            <React.StrictMode>
+              <Details movieId={movieId}/>
+            </React.StrictMode>,
+            document.getElementById('root')
+          );
+    }
     render() {
         const { classes } = this.props;
         return (
@@ -88,7 +98,7 @@ class Home extends Component {
                     <div className="left">
                         <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
                             {movieData.map(movie => (
-                                <GridListTile className="released-movie-grid-item" key={"grid" + movie.id}>
+                                <GridListTile onClick={()=>this.movieClickHandler(movie.id)} className="released-movie-grid-item" key={"grid" + movie.id}>
                                     <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                                     <GridListTileBar
                                         title={movie.title}
@@ -154,7 +164,7 @@ class Home extends Component {
                                     id="releaseDateStart"
                                     label="Release Date Start"
                                     type="date"
-                                    defaultvalue=""
+                                    defaultValue=""
                                     InputLabelProps={{shrink:true}}
                                     />
                                 </FormControl>
@@ -163,7 +173,7 @@ class Home extends Component {
                                     id="releaseDateEnd"
                                     label="Release Date End"
                                     type="date"
-                                    defaultvalue=""
+                                    defaultValue=""
                                     InputLabelProps={{shrink:true}}
                                     />
                                 </FormControl>
